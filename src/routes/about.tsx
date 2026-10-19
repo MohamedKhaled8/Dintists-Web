@@ -1,38 +1,249 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import {
+  ShieldCheck,
+  HeartHandshake,
+  Sparkles,
+  Calendar,
+  Microscope,
+  Award,
+  ArrowRight,
+  ArrowLeft,
+  MapPin,
+  Clock,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { doctors, t } from "@/lib/site";
-import { CtaBand, DoctorCard, PageHero, SectionHead, meta } from "@/components/site";
+import { getDoctors, getClinic } from "@/lib/repository";
+import { PageHero } from "@/components/site";
+import { DoctorCapsuleCard } from "@/components/DoctorCapsuleCard";
+import { ClinicalProcessWorkflow } from "@/components/ClinicalProcessWorkflow";
+import type { DoctorItem } from "@/data/types";
 
 export const Route = createFileRoute("/about")({
-  head: () => meta("من نحن | About Utopia Dental Clinics, Dokki", "تعرف على عيادات يوتوبيا لطب وتجميل وزراعة الأسنان في الدقي. About our approach to dental care in Dokki."),
-  component: About,
+  head: () => ({
+    meta: [
+      {
+        title: "من نحن | عيادات يوتوبيا لطب وتجميل وزراعة الأسنان بالدقي — About",
+      },
+      {
+        name: "description",
+        content:
+          "تعرف على رؤية وفلسفة عيادات يوتوبيا لطب الأسنان بالدقي: رعاية متخصصة، استماع واضح، وتعقيم جراحي فائق في بيئة هادئة.",
+      },
+    ],
+  }),
+  component: AboutPage,
 });
 
-function About() {
-  const { tr } = useI18n();
+function AboutPage() {
+  const { lang } = useI18n();
+  const isAr = lang === "ar";
+
+  const { data: clinic } = useQuery({
+    queryKey: ["clinic"],
+    queryFn: () => getClinic(),
+  });
+
+  const { data: doctors = [] } = useQuery<DoctorItem[]>({
+    queryKey: ["doctors"],
+    queryFn: () => getDoctors(),
+  });
+
+  const pillars = [
+    {
+      icon: HeartHandshake,
+      title: { ar: "الاستماع والشرح الشفاف", en: "Attentive Listening & Clear Plans" },
+      desc: {
+        ar: "لا نبدأ أي إجراء طبي قبل الاستماع لشكواك بدقة وشرح كافة الخيارات والبدائل لتتخذ قرارك باطمئنان.",
+        en: "We listen attentively to your concerns and explain every treatment option clearly before starting.",
+      },
+    },
+    {
+      icon: Microscope,
+      title: { ar: "دقة تشخيصية وتجهيزات حديثة", en: "Diagnostic Precision & Modern Tech" },
+      desc: {
+        ar: "فحص متكامل بأحدث التقنيات لتقييم صحة العظم واللثة بدقة عالية قبل الزراعة والتقويم.",
+        en: "Comprehensive assessment using modern diagnostic dental tools for optimal clinical safety.",
+      },
+    },
+    {
+      icon: ShieldCheck,
+      title: { ar: "تعقيم فائق وتجربة هادئة", en: "Hospital-Grade Sterilization" },
+      desc: {
+        ar: "بروتوكولات تعقيم صارمة وأجواء مصممة خصيصاً لتقليل أي توتر وضمان أقصى درجات الراحة.",
+        en: "Rigorous infection control protocols and a calming clinic atmosphere designed for total peace of mind.",
+      },
+    },
+  ];
+
+  const atmosphereHighlights = [
+    {
+      title: { ar: "الهدوء والسكينة البصرية", en: "Serene Spatial Calm" },
+      desc: {
+        ar: "ألوان خشبية وترابية دافئة، وإضاءة غير مباشرة تقلل من الرهبة المعتادة في العيادات الطبية.",
+        en: "Warm natural tones and indirect lighting curated to dissolve conventional clinical anxiety.",
+      },
+    },
+    {
+      title: { ar: "إطلالة الطابق التاسع بالدقي", en: "Panoramic Dokki 9th Floor" },
+      desc: {
+        ar: "موقع هادئ بعيداً عن صخب الشارع، مع خصوصية تامة لكل جناح كشف وعلاج.",
+        en: "Elevated tranquility above street noise with dedicated private consultation suites.",
+      },
+    },
+    {
+      title: { ar: "أجنحة فحص خاصة ومعزولة", en: "Private Clinical Suites" },
+      desc: {
+        ar: "كل مريض يحظى بمساحة علاجية مستقلة ومجهزة بأحدث كراسي الأسنان الطبية المريحة.",
+        en: "Individualized treatment rooms equipped with ergonomic chairs for extended comfort.",
+      },
+    },
+  ];
+
   return (
-    <>
-      <PageHero title={tr(t.aboutTitle)} sub={tr(t.introBody)} />
-      <section className="container-x mt-16 grid gap-10 md:grid-cols-2">
-        <h2 className="font-display text-3xl text-primary">{tr(t.philosophyTitle)}</h2>
-        <p className="text-lg text-muted-foreground">{tr(t.philosophy)}</p>
+    <div className="min-h-screen bg-[#FBF9F4] text-[#0E1F1C]">
+      <PageHero
+        title={isAr ? "عن عيادات يوتوبيا" : "About Utopia Dental"}
+        sub={
+          isAr
+            ? "بيئة رعاية سنية هادئة بالدقي تُعيد تعريف تجربة زيارة طبيب الأسنان بكل راحة وشفافية."
+            : "A quiet, patient-centered dental sanctuary in Dokki redefining clinical care through honesty, sterile mastery, and human empathy."
+        }
+        crumb={isAr ? "من نحن" : "About"}
+      />
+
+      {/* Story & Philosophy */}
+      <section className="container-x py-16">
+        <div className="rounded-[2.5rem] border border-[#C2A06A]/30 bg-white p-8 md:p-14 shadow-md">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1.3fr] lg:items-center">
+            <div>
+              <span className="eyebrow">
+                <Sparkles className="w-3.5 h-3.5 text-[#C2A06A]" />
+                <span>{isAr ? "قصتنا ورؤيتنا" : "Our Story & Vision"}</span>
+              </span>
+              <h2 className="mt-4 font-display text-3xl md:text-4xl font-bold text-[#0E1F1C]">
+                {isAr
+                  ? "يوتوبيا: المكان الهادئ للابتسامة المكتملة"
+                  : "Utopia: A Calm Sanctuary for Lasting Smiles"}
+              </h2>
+            </div>
+
+            <div>
+              <p className="text-base md:text-lg leading-relaxed text-[#16372F]/80">
+                {isAr
+                  ? "تأسست عيادات يوتوبيا في قلب حي الدقي بالجيزة برؤية واحدة: توفير مساحة علاجية راقية تحترم وقت المراجع، وتزيل الرهبة المرتبطة بطب الأسنان، وتقدم حلولاً مستدامة بأيدي استشاريين متخصصين في زراعة وتجميل وتقويم الأسنان."
+                  : "Founded in the heart of Dokki, Giza, Utopia was established with a singular vision: to offer a refined clinical space that respects your time, eliminates dental fear, and delivers durable results through specialized consultants."}
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-3 text-xs text-[#16372F]/70">
+                <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                <span>١١٦ شارع محيي الدين أبو العز، الطابق التاسع، الدقي</span>
+                <span>•</span>
+                <span>يومياً ٢:٠٠ م – ١٠:٠٠ م</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
-      <section className="container-x mt-20">
-        <SectionHead title={tr(t.journeyTitle)} />
-        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {t.journey.map((j, i) => (
-            <li key={j.en} className="card-lift p-6">
-              <span className="font-display text-3xl text-accent">{i + 1}</span>
-              <p className="mt-3 font-medium text-primary">{tr(j)}</p>
-            </li>
+
+      {/* Three Pillars */}
+      <section className="container-x pb-16">
+        <div className="mb-10 text-center max-w-2xl mx-auto">
+          <span className="eyebrow mx-auto justify-center">
+            <Sparkles className="w-3.5 h-3.5 text-[#C2A06A]" />
+            <span>{isAr ? "قيمنا الأساسية" : "Core Values"}</span>
+          </span>
+          <h2 className="mt-2 font-display text-3xl font-bold text-[#0E1F1C]">
+            {isAr ? "معايير الرعاية في عيادات يوتوبيا" : "Our Standards of Clinical Excellence"}
+          </h2>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {pillars.map((p, i) => {
+            const Icon = p.icon;
+            return (
+              <div
+                key={i}
+                className="rounded-3xl border border-[#C2A06A]/20 bg-white p-8 shadow-xs hover:border-[#C2A06A]/50 transition-all"
+              >
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#0E1F1C] text-[#C2A06A] shadow-sm">
+                  <Icon className="h-7 w-7" />
+                </div>
+                <h3 className="mt-6 font-display text-xl font-bold text-[#0E1F1C]">
+                  {p.title[lang]}
+                </h3>
+                <p className="mt-3 text-xs md:text-sm leading-relaxed text-[#16372F]/70">
+                  {p.desc[lang]}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Atmosphere Section (Abstract Illustrated Placeholders, NOT fake photos) */}
+      <section className="container-x pb-20">
+        <div className="rounded-3xl border border-[#C2A06A]/20 bg-[#F6F1E7] p-8 md:p-12">
+          <div className="max-w-2xl mb-8">
+            <span className="eyebrow">
+              <Sparkles className="w-3.5 h-3.5 text-[#C2A06A]" />
+              <span>{isAr ? "أجواء العيادة وتجربة الحضور" : "Clinic Atmosphere"}</span>
+            </span>
+            <h2 className="mt-2 font-display text-2xl md:text-3xl font-bold text-[#0E1F1C]">
+              {isAr ? "تصميم بيئي يمنحك الطمأنينة" : "Designed for Psychological Calm"}
+            </h2>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {atmosphereHighlights.map((item, idx) => (
+              <div
+                key={idx}
+                className="rounded-2xl border border-[#C2A06A]/25 bg-white p-6 shadow-xs"
+              >
+                <div className="w-10 h-10 rounded-xl bg-[#F6F1E7] text-[#C2A06A] flex items-center justify-center font-mono font-bold text-xs mb-4">
+                  0{idx + 1}
+                </div>
+                <h3 className="font-display text-base font-bold text-[#0E1F1C] mb-2">
+                  {item.title[lang]}
+                </h3>
+                <p className="text-xs leading-relaxed text-[#16372F]/70">
+                  {item.desc[lang]}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Interactive Clinical Process Workflow */}
+      <section className="container-x pb-20">
+        <ClinicalProcessWorkflow />
+      </section>
+
+      {/* Doctors Team Preview */}
+      <section className="container-x pb-24">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="eyebrow">
+              <Award className="w-3.5 h-3.5 text-[#C2A06A]" />
+              <span>{isAr ? "الفريق الطبي" : "Medical Team"}</span>
+            </span>
+            <h2 className="mt-2 font-display text-3xl font-bold text-[#0E1F1C]">
+              {isAr ? "استشاريو يوتوبيا بالدقي" : "Our Specialists"}
+            </h2>
+          </div>
+
+          <Link to="/doctors" className="btn-outline flex items-center gap-1.5 text-xs font-bold">
+            <span>{isAr ? "عرض جميع الأطباء" : "View All Doctors"}</span>
+            {isAr ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
+          </Link>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+          {doctors.map((doctor) => (
+            <DoctorCapsuleCard key={doctor.id} doctor={doctor} />
           ))}
-        </ol>
+        </div>
       </section>
-      <section className="container-x mt-20">
-        <SectionHead title={tr(t.doctorsTitle)} />
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">{doctors.map((d) => <DoctorCard key={d.id} d={d} />)}</div>
-      </section>
-      <CtaBand />
-    </>
+    </div>
   );
 }

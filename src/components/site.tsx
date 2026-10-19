@@ -1,250 +1,355 @@
 import { Link } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
+import { useState, useEffect } from "react";
 import * as Icons from "lucide-react";
-import { Menu, X, Phone, MessageCircle, Mail, MapPin, Clock, ArrowUpRight, UserRound } from "lucide-react";
+import {
+  Menu,
+  X,
+  Search,
+  Phone,
+  MessageCircle,
+  Mail,
+  MapPin,
+  Clock,
+  Calendar,
+  ChevronRight,
+  ShieldCheck,
+  Award,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { clinic, t, DEMO_MODE, services, type Service, type Doctor, type L } from "@/lib/site";
+import { clinicData } from "@/data/clinic";
+import { UniversalSearchModal } from "./UniversalSearchModal";
+import { UtopiaLogo } from "./UtopiaLogo";
+import type { L } from "@/data/types";
 
-const navItems = [
-  { to: "/", k: "home" },
-  { to: "/about", k: "about" },
-  { to: "/services", k: "services" },
-  { to: "/doctors", k: "doctors" },
-  { to: "/gallery", k: "gallery" },
-  { to: "/reviews", k: "reviews" },
-  { to: "/blog", k: "blog" },
-  { to: "/contact", k: "contact" },
+export const navItems = [
+  { to: "/", k: "home", ar: "الرئيسية", en: "HOME" },
+  { to: "/about", k: "about", ar: "من نحن", en: "ABOUT US" },
+  { to: "/services", k: "services", ar: "الخدمات", en: "SERVICES" },
+  { to: "/doctors", k: "doctors", ar: "الأطباء", en: "DOCTORS" },
+  { to: "/patients", k: "patients", ar: "دليل المراجع", en: "PATIENTS" },
+  { to: "/gallery", k: "gallery", ar: "قبل وبعد", en: "GALLERY" },
+  { to: "/contact", k: "contact", ar: "تواصل معنا", en: "CONTACT" },
 ] as const;
+
+export function TopInfoBar() {
+  const { lang } = useI18n();
+  const isAr = lang === "ar";
+
+  return (
+    <div className="w-full bg-[#0B4FC7] text-white text-xs py-2 px-4 sm:px-8 border-b border-white/10 select-none">
+      <div className="container-x flex items-center justify-between">
+        {/* Left / Start Info Items */}
+        <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-[11px] sm:text-xs">
+          <span className="hidden md:inline-flex items-center gap-1.5 opacity-90">
+            <MapPin className="h-3.5 w-3.5" />
+            <span>
+              {isAr
+                ? "١١٦ شارع محيي الدين أبو العز، الطابق التاسع، الدقي، الجيزة"
+                : "116 Mohy El-Din Abu El-Ezz St., 9th Floor, Dokki, Giza"}
+            </span>
+          </span>
+
+          <a
+            href="tel:+201117655583"
+            className="inline-flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-opacity"
+          >
+            <Phone className="h-3.5 w-3.5" />
+            <span dir="ltr">0111 765 5583</span>
+          </a>
+
+          <a
+            href="mailto:utopiadental2023@gmail.com"
+            className="hidden lg:inline-flex items-center gap-1.5 opacity-90 hover:opacity-100 transition-opacity"
+          >
+            <Mail className="h-3.5 w-3.5" />
+            <span>utopiadental2023@gmail.com</span>
+          </a>
+
+          <span className="inline-flex items-center gap-1.5 opacity-90">
+            <Clock className="h-3.5 w-3.5" />
+            <span>{isAr ? "يومياً ٢:٠٠ م – ١٠:٠٠ م" : "Daily 2:00 PM – 10:00 PM"}</span>
+          </span>
+        </div>
+
+        {/* Right / End Social Icons */}
+        <div className="hidden sm:flex items-center gap-3.5 text-white/80">
+          <a
+            href="https://facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white transition-colors"
+            aria-label="Facebook"
+          >
+            <svg className="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+            </svg>
+          </a>
+          <a
+            href="https://instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white transition-colors"
+            aria-label="Instagram"
+          >
+            <svg className="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+            </svg>
+          </a>
+          <a
+            href="https://youtube.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-white transition-colors"
+            aria-label="YouTube"
+          >
+            <svg className="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function LangSwitch() {
   const { lang, setLang } = useI18n();
   return (
     <button
       onClick={() => setLang(lang === "ar" ? "en" : "ar")}
-      className="rounded-full border border-border px-3 py-1.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
+      className="flex items-center gap-1 rounded-md border border-[#E3EAF3] bg-white px-2.5 py-1.5 text-xs font-bold text-[#0B1B3A] transition-all hover:bg-[#EEF4FB] hover:border-[#0B4FC7] active:scale-95"
       aria-label={lang === "ar" ? "Switch to English" : "التبديل إلى العربية"}
     >
-      {lang === "ar" ? "EN" : "عربي"}
+      <span className="text-[11px] font-semibold text-[#0B4FC7]">
+        {lang === "ar" ? "English" : "العربية"}
+      </span>
     </button>
   );
 }
 
 export function Header() {
-  const { tr } = useI18n();
+  const { lang } = useI18n();
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const isAr = lang === "ar";
+
   return (
-    <header className="sticky top-0 z-40 border-b border-border/70 bg-background/85 backdrop-blur-md">
-      {DEMO_MODE && (
-        <div className="bg-primary py-1 text-center text-xs text-primary-foreground/90">{tr(t.demo)}</div>
-      )}
-      <div className="container-x flex h-16 items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-2.5" aria-label={tr(clinic.name)}>
-          <span className="grid h-9 w-9 place-items-center rounded-full bg-primary font-display text-lg text-primary-foreground">U</span>
-          <span className="font-display text-xl leading-none text-primary">
-            Utopia<span className="block text-[0.65rem] tracking-[0.25em] text-muted-foreground">DENTAL</span>
-          </span>
-        </Link>
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
-          {navItems.map((n) => (
-            <Link key={n.to} to={n.to} className="nav-link" activeProps={{ className: "nav-link-active" }} activeOptions={{ exact: n.to === "/" }}>
-              {tr(t.nav[n.k])}
+    <>
+      <header className="sticky top-0 z-40 bg-white border-b border-[#E3EAF3] shadow-xs">
+        <div className="container-x flex h-20 items-center justify-between gap-4">
+          {/* Logo left */}
+          <Link to="/" className="shrink-0 flex items-center" aria-label="Utopia Dental Clinics">
+            <UtopiaLogo size="md" />
+          </Link>
+
+          {/* Centered Desktop Nav */}
+          <nav
+            className="hidden lg:flex items-center gap-6 xl:gap-8 font-bold text-[13px] tracking-wider text-[#0B1B3A]"
+            aria-label="Main"
+          >
+            {navItems.map((n) => (
+              <Link
+                key={n.to}
+                to={n.to}
+                className="py-2 transition-colors hover:text-[#0B4FC7] relative"
+                activeProps={{
+                  className:
+                    "text-[#0B4FC7] font-bold after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-[#0B4FC7]",
+                }}
+                activeOptions={{ exact: n.to === "/" }}
+              >
+                {isAr ? n.ar : n.en}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Right Action: Clean Lang Switch + Solid Blue BOOK APPOINTMENT */}
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <LangSwitch />
+
+            <Link
+              to="/book"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#0B4FC7] px-4 sm:px-5 py-2.5 text-xs font-bold text-white shadow-sm hover:bg-[#083B99] active:scale-98 transition-all uppercase tracking-wider"
+            >
+              <Calendar className="h-4 w-4" />
+              <span>{isAr ? "احجز موعداً" : "BOOK APPOINTMENT"}</span>
             </Link>
-          ))}
-        </nav>
-        <div className="flex items-center gap-2">
-          <LangSwitch />
-          <Link to="/contact" className="btn-primary hidden sm:inline-flex">{tr(t.book)}</Link>
-          <button className="rounded-full p-2 lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+
+            {/* Mobile Hamburger Button */}
+            <button
+              className="flex h-10 w-10 items-center justify-center rounded-lg border border-[#E3EAF3] bg-white text-[#0B1B3A] lg:hidden"
+              onClick={() => setOpen(!open)}
+              aria-label="Menu"
+              aria-expanded={open}
+            >
+              {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
         </div>
-      </div>
-      {open && (
-        <nav className="container-x grid gap-1 pb-4 lg:hidden" aria-label="Mobile">
-          {navItems.map((n) => (
-            <Link key={n.to} to={n.to} onClick={() => setOpen(false)} className="nav-link py-2.5">
-              {tr(t.nav[n.k])}
-            </Link>
-          ))}
-          <Link to="/contact" onClick={() => setOpen(false)} className="btn-primary mt-2">{tr(t.book)}</Link>
-        </nav>
-      )}
-    </header>
+
+        {/* Mobile Full-Screen / Drawer Nav */}
+        {open && (
+          <div className="border-t border-[#E3EAF3] bg-white px-5 py-6 shadow-xl lg:hidden">
+            <nav className="grid gap-2" aria-label="Mobile">
+              {navItems.map((n) => (
+                <Link
+                  key={n.to}
+                  to={n.to}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between rounded-lg px-4 py-3 text-sm font-bold text-[#0B1B3A] transition-colors hover:bg-[#EEF4FB] hover:text-[#0B4FC7]"
+                >
+                  <span>{isAr ? n.ar : n.en}</span>
+                  <ChevronRight className="h-4 w-4 text-[#5B6B84] rtl:-scale-x-100" />
+                </Link>
+              ))}
+
+              <div className="mt-4 pt-4 border-t border-[#E3EAF3] space-y-3">
+                <Link
+                  to="/book"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-center gap-2 w-full rounded-lg bg-[#0B4FC7] py-3 text-sm font-bold text-white shadow-sm"
+                >
+                  <Calendar className="h-4 w-4" />
+                  <span>{isAr ? "احجز موعداً" : "BOOK APPOINTMENT"}</span>
+                </Link>
+
+                <a
+                  href="tel:+201117655583"
+                  className="flex items-center justify-center gap-2 w-full rounded-lg border border-[#0B4FC7] py-2.5 text-xs font-bold text-[#0B4FC7] hover:bg-[#EEF4FB]"
+                >
+                  <Phone className="h-4 w-4" />
+                  <span>{isAr ? "اتصل بنا: 01117655583" : "Call Us: 0111 765 5583"}</span>
+                </a>
+              </div>
+            </nav>
+          </div>
+        )}
+      </header>
+
+      {/* Global Universal Search Modal */}
+      <UniversalSearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+    </>
   );
 }
 
 export function Footer() {
-  const { tr } = useI18n();
+  const { lang } = useI18n();
+  const isAr = lang === "ar";
+
   return (
-    <footer className="mt-24 bg-primary text-primary-foreground">
-      <div className="container-x grid gap-10 py-14 md:grid-cols-3">
-        <div>
-          <p className="font-display text-2xl">{tr(clinic.name)}</p>
-          <p className="mt-3 text-sm text-primary-foreground/75">{tr(t.heroSub)}</p>
+    <footer className="w-full bg-[#0B1B3A] text-white py-6 border-t border-white/10 select-none">
+      <div className="container-x flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/70">
+        {/* Left: Small white logo */}
+        <Link to="/" className="flex items-center" aria-label="Utopia Dental Clinics">
+          <UtopiaLogo inverted compact size="sm" />
+        </Link>
+
+        {/* Center: Copyright */}
+        <p className="text-center font-normal">
+          {isAr
+            ? "© ٢٠٢٦ عيادات يوتوبيا لطب وتجميل وزراعة الأسنان بالدقي. جميع الحقوق محفوظة."
+            : "© 2026 Utopia Dental Clinics. All Rights Reserved."}
+        </p>
+
+        {/* Right: Policy links */}
+        <div className="flex items-center gap-4 text-xs font-medium">
+          <Link to="/privacy" className="hover:text-white transition-colors">
+            {isAr ? "سياسة الخصوصية" : "Privacy Policy"}
+          </Link>
+          <span className="text-white/40">|</span>
+          <Link to="/terms" className="hover:text-white transition-colors">
+            {isAr ? "الشروط والأحكام" : "Terms of Service"}
+          </Link>
+          <span className="text-white/40">|</span>
+          <Link to="/admin" className="hover:text-blue-300 transition-colors text-white/60">
+            {isAr ? "بوابة الإدارة" : "Admin"}
+          </Link>
         </div>
-        <nav className="grid grid-cols-2 gap-2 text-sm" aria-label="Footer">
-          {[...navItems, { to: "/privacy", k: "privacy" } as const].map((n) => (
-            <Link key={n.to} to={n.to} className="text-primary-foreground/80 hover:text-primary-foreground">{tr(t.nav[n.k])}</Link>
-          ))}
-        </nav>
-        <ContactList inverted />
       </div>
-      <div className="border-t border-primary-foreground/15 py-5 text-center text-xs text-primary-foreground/60">{tr(t.rights)}</div>
     </footer>
   );
 }
 
-export function ContactList({ inverted = false }: { inverted?: boolean }) {
-  const { tr } = useI18n();
-  const items = [
-    { icon: Phone, label: t.phone, value: <a href={clinic.tel} dir="ltr">{clinic.phoneIntl}</a> },
-    { icon: MessageCircle, label: t.whatsapp, value: <a href={clinic.whatsapp} target="_blank" rel="noopener noreferrer" dir="ltr">{clinic.phoneIntl}</a> },
-    { icon: Mail, label: t.email, value: <a href={`mailto:${clinic.email}`}>{clinic.email}</a> },
-    { icon: MapPin, label: t.address, value: <a href={clinic.maps} target="_blank" rel="noopener noreferrer">{tr(clinic.address)}</a> },
-    { icon: Clock, label: t.hours, value: <span>{tr(clinic.hours)}</span> },
-  ];
-  return (
-    <ul className="grid gap-4 text-sm">
-      {items.map(({ icon: I, label, value }) => (
-        <li key={label.en} className="flex gap-3">
-          <I className={`mt-0.5 h-4 w-4 shrink-0 ${inverted ? "text-accent" : "text-primary"}`} />
-          <div>
-            <p className={inverted ? "text-primary-foreground/60" : "text-muted-foreground"}>{tr(label)}</p>
-            <div className="break-words font-medium hover:underline">{value}</div>
-          </div>
-        </li>
-      ))}
-    </ul>
-  );
-}
+export function PageHero({
+  title,
+  sub,
+  crumb,
+}: {
+  title: string;
+  sub?: string;
+  crumb?: string;
+}) {
+  const { lang } = useI18n();
+  const isAr = lang === "ar";
 
-export function PageHero({ title, sub, crumb }: { title: string; sub?: string; crumb?: string }) {
-  const { tr } = useI18n();
   return (
-    <section className="hero-soft border-b border-border">
-      <div className="container-x py-16 md:py-20">
-        <nav aria-label="Breadcrumb" className="text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-primary">{tr(t.nav.home)}</Link>
-          <span className="mx-2">/</span>
-          <span aria-current="page">{crumb ?? title}</span>
-        </nav>
-        <h1 className="mt-4 max-w-3xl font-display text-4xl text-primary md:text-5xl">{title}</h1>
-        {sub && <p className="mt-4 max-w-2xl text-lg text-muted-foreground">{sub}</p>}
+    <section className="bg-[#EEF4FB] py-12 md:py-16 border-b border-[#E3EAF3]">
+      <div className="container-x">
+        <div className="flex items-center gap-2 text-xs font-semibold text-[#0B4FC7] mb-3">
+          <Link to="/" className="hover:underline">
+            {isAr ? "الرئيسية" : "Home"}
+          </Link>
+          <span>/</span>
+          <span className="text-[#5B6B84]">{crumb || title}</span>
+        </div>
+
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0B1B3A] tracking-tight">
+          {title}
+        </h1>
+
+        {sub && (
+          <p className="mt-3 max-w-2xl text-sm sm:text-base text-[#5B6B84] leading-relaxed">
+            {sub}
+          </p>
+        )}
       </div>
     </section>
-  );
-}
-
-export function SectionHead({ eyebrow, title, action }: { eyebrow?: string; title: string; action?: ReactNode }) {
-  return (
-    <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
-      <div>
-        {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h2 className="mt-2 font-display text-3xl text-primary md:text-4xl">{title}</h2>
-      </div>
-      {action}
-    </div>
   );
 }
 
 export function ServiceIcon({ name, className }: { name: string; className?: string }) {
-  const I = (Icons as unknown as Record<string, Icons.LucideIcon>)[name] ?? Icons.Smile;
+  const I = (Icons as unknown as Record<string, Icons.LucideIcon>)[name] ?? Icons.Sparkles;
   return <I className={className} />;
 }
 
-export function ServiceCard({ s, i }: { s: Service; i: number }) {
-  const { tr } = useI18n();
+export function ContactList() {
+  const { lang } = useI18n();
+  const isAr = lang === "ar";
+
   return (
-    <Link to="/services/$slug" params={{ slug: s.slug }} className="card-lift group flex flex-col p-6">
-      <div className="flex items-center justify-between">
-        <span className="grid h-12 w-12 place-items-center rounded-2xl bg-secondary text-primary">
-          <ServiceIcon name={s.icon} className="h-5 w-5" />
+    <ul className="space-y-4 text-xs">
+      <li className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#0E1F1C] text-[#C2A06A]">
+          <Phone className="h-4 w-4" />
         </span>
-        <span className="font-display text-sm text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
-      </div>
-      <h3 className="mt-6 font-display text-xl text-primary">{tr(s.name)}</h3>
-      <p className="mt-2 flex-1 text-sm text-muted-foreground">{tr(s.intro)}</p>
-      <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary">
-        {tr(t.learnMore)} <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 rtl:-scale-x-100" />
-      </span>
-    </Link>
-  );
-}
-
-export function ServiceGrid({ list = services }: { list?: Service[] }) {
-  return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-      {list.map((s) => <ServiceCard key={s.slug} s={s} i={services.indexOf(s)} />)}
-    </div>
-  );
-}
-
-export function DoctorCard({ d, full = false }: { d: Doctor; full?: boolean }) {
-  const { tr } = useI18n();
-  return (
-    <article className="card-lift overflow-hidden">
-      <div className="portrait-placeholder grid aspect-[4/5] place-items-center" role="img" aria-label={`${tr(d.name)} — ${tr(t.portraitPending)}`}>
-        <div className="text-center">
-          <UserRound className="mx-auto h-14 w-14 text-primary/40" />
-          <p className="mt-2 text-xs text-muted-foreground">{tr(t.portraitPending)}</p>
-        </div>
-      </div>
-      <div className="p-5">
-        <h3 className="font-display text-lg text-primary">{tr(d.name)}</h3>
-        <p className="mt-1 text-sm text-muted-foreground">{tr(d.role)}</p>
-        {full && (
-          <>
-            <p className="mt-3 text-sm italic text-muted-foreground">{tr(t.bioPending)}</p>
-            {d.services.length > 0 && (
-              <div className="mt-3 flex flex-wrap gap-2">
-                {d.services.map((slug) => {
-                  const s = services.find((x) => x.slug === slug)!;
-                  return <Link key={slug} to="/services/$slug" params={{ slug }} className="chip">{tr(s.name)}</Link>;
-                })}
-              </div>
-            )}
-            <Link to="/contact" className="btn-outline mt-4 w-full">{tr(t.contactDoctor)}</Link>
-          </>
-        )}
-      </div>
-    </article>
-  );
-}
-
-export function CtaBand() {
-  const { tr } = useI18n();
-  return (
-    <section className="container-x mt-24">
-      <div className="cta-band grid gap-6 rounded-[2rem] p-10 md:grid-cols-[1fr_auto] md:items-center md:p-14">
         <div>
-          <h2 className="font-display text-3xl text-primary-foreground md:text-4xl">{tr(t.contactTitle)}</h2>
-          <p className="mt-3 text-primary-foreground/80">{tr(clinic.hours)} · {tr(clinic.address)}</p>
-        </div>
-        <div className="flex flex-wrap gap-3">
-          <Link to="/contact" className="btn-light">{tr(t.book)}</Link>
-          <a href={clinic.whatsapp} target="_blank" rel="noopener noreferrer" className="btn-ghost-light">
-            <MessageCircle className="h-4 w-4" /> {tr(t.whatsapp)}
+          <p className="text-[10px] text-[#16372F]/60 font-semibold">{isAr ? "رقم الهاتف" : "Phone"}</p>
+          <a href={`tel:${clinicData.phone}`} dir="ltr" className="font-bold text-[#0E1F1C] hover:text-[#C2A06A]">
+            {clinicData.phone}
           </a>
         </div>
-      </div>
-    </section>
+      </li>
+      <li className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#0E1F1C] text-[#C2A06A]">
+          <Mail className="h-4 w-4" />
+        </span>
+        <div>
+          <p className="text-[10px] text-[#16372F]/60 font-semibold">{isAr ? "البريد الإلكتروني" : "Email"}</p>
+          <a href={`mailto:${clinicData.email}`} className="font-bold text-[#0E1F1C] hover:text-[#C2A06A]">
+            {clinicData.email}
+          </a>
+        </div>
+      </li>
+      <li className="flex items-center gap-3">
+        <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#0E1F1C] text-[#C2A06A]">
+          <Clock className="h-4 w-4" />
+        </span>
+        <div>
+          <p className="text-[10px] text-[#16372F]/60 font-semibold">{isAr ? "مواعيد العمل" : "Working Hours"}</p>
+          <p className="font-bold text-[#0E1F1C]">{clinicData.hours[lang]}</p>
+        </div>
+      </li>
+    </ul>
   );
 }
 
-export function DraftBadge() {
-  const { tr } = useI18n();
-  return <span className="chip bg-accent/40">{tr(t.draft)}</span>;
-}
-
-export const meta = (title: string, description: string) => ({
-  meta: [
-    { title },
-    { name: "description", content: description },
-    { property: "og:title", content: title },
-    { property: "og:description", content: description },
-    { property: "og:type", content: "website" },
-    { name: "twitter:card", content: "summary_large_image" },
-  ],
-});
-
-export type { L };

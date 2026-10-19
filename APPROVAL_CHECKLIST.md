@@ -1,4 +1,5 @@
 # Clinic approval checklist
+
 - [ ] Phone, WhatsApp, email, address, Google Maps link
 - [ ] Working hours (published 2–10 PM daily differs from another directory)
 - [ ] Arabic names and specialties of all five doctors; approved portraits and bios

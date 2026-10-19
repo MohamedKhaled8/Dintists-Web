@@ -1,46 +1,52 @@
-# Graph Report - dintists  (2026-10-17)
+# Graph Report - dintists  (2026-10-18)
 
 ## Corpus Check
-- Corpus is ~29,873 words - fits in a single context window. You may not need a graph.
+- 170 files · ~656,011 words
+- Verdict: corpus is large enough that graph structure adds value.
+- Unclassified: 11 file(s) not represented in the graph (top: (none) 3, .css 2, .lock 1)
 
 ## Summary
-- 621 nodes · 1306 edges · 40 communities (32 shown, 8 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 11 edges (avg confidence: 0.85)
-- Token cost: 120 input · 80 output
+- 1342 nodes · 2590 edges · 83 communities (68 shown, 15 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 37 edges (avg confidence: 0.86)
+- Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `14e59af8`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
-- Routing and Page Components
+- routeTree.gen.ts
 - Core UI Dependencies
 - Input and Separator Components
-- Breadcrumb and Tabs Navigation
+- cn
 - Package Metadata Configuration
 - TypeScript Compiler Configuration
 - Code Quality and Linting Setup
-- Popover and Interactive UI Primitives
+- assets.mjs
 - Routing Error Capture System
 - Command Palette Dialogs
 - Shadcn Component Config
-- Accordion and Form Controls
+- draw.mjs
 - Form Management and Validation
-- Menubar Navigation Components
-- Carousel Slider Components
-- Alert Dialog and Calendar Pickers
-- Badge and Toggle Components
+- menubar.tsx
+- pagination.tsx
+- repository.ts
+- navigation-menu.tsx
 - Recharts Visualization Setup
-- Context Menu Primitives
-- Dropdown Menu Components
-- Buttons and Pagination Controls
+- @tanstack/react-router
+- breadcrumb.tsx
+- Cookies
 - Build and Dev NPM Scripts
-- Navigation Menu Primitives
+- lucide-react
 - Select Dropdown Controls
-- Drawer and Sheet Modals
+- react
 - ESLint Configuration
-- Lovable Error Reporting
-- One-Time Password Inputs
-- Avatar Profile Components
-- Alert Notification Cards
-- Vite and Test Configuration
-- Scroll Area Custom Containers
+- lovable-error-reporting.ts
+- Browser Automation with playwright-cli
+- lucide-react
+- utils.ts
+- UniversalSearchModal.tsx
 - Sonner Toast Notifications
 - Clinic Launch and Demo Gating
 - Package Overrides Configuration
@@ -49,55 +55,97 @@
 - Collapsible Disclosure Panels
 - Jest DOM Testing Setup
 - Lovable Git Sync Requirements
+- site.ts
+- 3. Heal
+- inspect.mjs
+- Routes
+- useI18n
+- 4. Recipes
+- services.$slug.tsx
+- The run
+- navigation-menu.tsx
+- Imagery
+- The study
+- playwright-cli/SKILL.md
+- Component Catalog & Categories
+- Tracing
+- Colour
+- Layout
+- lint.mjs
+- Browser Session Management
+- Tells — the dated registry
+- Type
+- Page
+- Lenis Smooth Scroll
+- Video Recording
+- Words
+- Advanced Mocking with run-code
+- Critique — judging the render
+- Running Custom Playwright Code
+- Core Concepts & Cheatsheet
+- tasteskill v2 (`design-taste-frontend`)
+- Browser
+- rules.mjs
+- Attaching Screenshots and Videos to Pull Requests
+- drawer.tsx
+- admin.tsx
+- OrisRollingCounter.tsx
+- images.ts
+- CREDITS.md
+- avatar.tsx
+- book.tsx
+- Trace Output Files
+- Inspecting Element Attributes
+- vitest
 
 ## God Nodes (most connected - your core abstractions)
 1. `cn()` - 220 edges
-2. `react` - 48 edges
-3. `useI18n()` - 33 edges
-4. `lucide-react` - 25 edges
-5. `meta()` - 23 edges
-6. `PageHero()` - 22 edges
-7. `compilerOptions` - 22 edges
-8. `CtaBand()` - 18 edges
-9. `@tanstack/react-router` - 16 edges
-10. `t` - 13 edges
+2. `react` - 73 edges
+3. `useI18n()` - 65 edges
+4. `lucide-react` - 55 edges
+5. `getOne()` - 31 edges
+6. `@tanstack/react-router` - 28 edges
+7. `PageHero()` - 28 edges
+8. `search()` - 22 edges
+9. `compilerOptions` - 22 edges
+10. `FileRoutesByPath` - 20 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `AccordionItem` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/accordion.tsx → src/lib/utils.ts
-- `AccordionTrigger` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/accordion.tsx → src/lib/utils.ts
-- `AccordionContent` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/accordion.tsx → src/lib/utils.ts
+- `Syntax` --references--> `fetch()`  [INFERRED]
+  .agents/skills/playwright-cli/references/running-code.md → src/server.ts
+- `TreatmentConsultationPlanner()` --calls--> `useI18n()`  [EXTRACTED]
+  src/components/TreatmentConsultationPlanner.tsx → src/lib/i18n.tsx
+- `PearlCrown3D()` --calls--> `useI18n()`  [EXTRACTED]
+  src/components/three/PearlCrown3D.tsx → src/lib/i18n.tsx
+- `SmileJourney3D()` --calls--> `useI18n()`  [EXTRACTED]
+  src/components/three/SmileJourney3D.tsx → src/lib/i18n.tsx
 - `AlertDialogHeader()` --calls--> `cn()`  [EXTRACTED]
-  src/components/ui/alert-dialog.tsx → src/lib/utils.ts
-- `AlertDialogFooter()` --calls--> `cn()`  [EXTRACTED]
   src/components/ui/alert-dialog.tsx → src/lib/utils.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (40 total, 8 thin omitted)
+## Communities (83 total, 15 thin omitted)
 
-### Community 0 - "Routing and Page Components"
-Cohesion: 0.07
-Nodes (76): @tanstack/react-query, @tanstack/react-router, ContactList(), CtaBand(), DoctorCard(), DraftBadge(), Footer(), Header() (+68 more)
+### Community 0 - "routeTree.gen.ts"
+Cohesion: 0.06
+Nodes (39): getRouter(), Route, Route, Route, Route, Route, Route, Route (+31 more)
 
 ### Community 1 - "Core UI Dependencies"
-Cohesion: 0.04
-Nodes (53): dependencies, class-variance-authority, clsx, cmdk, date-fns, embla-carousel-react, @hookform/resolvers, input-otp (+45 more)
+Cohesion: 0.03
+Nodes (59): dependencies, class-variance-authority, clsx, cmdk, date-fns, embla-carousel-react, @google/model-viewer, gsap (+51 more)
 
 ### Community 2 - "Input and Separator Components"
 Cohesion: 0.06
-Nodes (42): @radix-ui/react-separator, @radix-ui/react-tooltip, Input, Separator, SheetContent, SheetContentProps, SheetDescription, SheetFooter() (+34 more)
+Nodes (40): Input, Separator, SheetContent, SheetContentProps, SheetDescription, SheetFooter(), SheetHeader(), SheetOverlay (+32 more)
 
-### Community 3 - "Breadcrumb and Tabs Navigation"
-Cohesion: 0.11
-Nodes (27): @radix-ui/react-slot, @radix-ui/react-tabs, Breadcrumb, BreadcrumbEllipsis(), BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage (+19 more)
+### Community 3 - "cn"
+Cohesion: 0.07
+Nodes (46): @radix-ui/react-accordion, @radix-ui/react-context-menu, @radix-ui/react-dropdown-menu, @radix-ui/react-tabs, react-resizable-panels, AccordionContent, AccordionItem, AccordionTrigger (+38 more)
 
 ### Community 4 - "Package Metadata Configuration"
-Cohesion: 0.08
-Nodes (25): name, private, sideEffects, type, date-fns, eslint, eslint-config-prettier, @hookform/resolvers (+17 more)
+Cohesion: 0.06
+Nodes (32): name, private, sideEffects, type, clsx, date-fns, eslint, eslint-config-prettier (+24 more)
 
 ### Community 5 - "TypeScript Compiler Configuration"
 Cohesion: 0.08
@@ -107,9 +155,9 @@ Nodes (23): compilerOptions, allowImportingTsExtensions, exactOptionalPropertyTy
 Cohesion: 0.09
 Nodes (22): devDependencies, eslint, eslint-config-prettier, @eslint/js, eslint-plugin-prettier, eslint-plugin-react-hooks, eslint-plugin-react-refresh, globals (+14 more)
 
-### Community 7 - "Popover and Interactive UI Primitives"
-Cohesion: 0.12
-Nodes (14): clsx, @radix-ui/react-hover-card, @radix-ui/react-popover, @radix-ui/react-progress, @radix-ui/react-slider, @radix-ui/react-switch, react, tailwind-merge (+6 more)
+### Community 7 - "assets.mjs"
+Cohesion: 0.07
+Nodes (85): AIC_FIELDS, AIC_HEADERS, applyThumb(), ARCHIVE_LICENCE, args, argv, base(), clock() (+77 more)
 
 ### Community 8 - "Routing Error Capture System"
 Cohesion: 0.16
@@ -120,112 +168,256 @@ Cohesion: 0.13
 Nodes (17): cmdk, @radix-ui/react-dialog, Command, CommandDialog(), CommandEmpty, CommandGroup, CommandInput, CommandItem (+9 more)
 
 ### Community 10 - "Shadcn Component Config"
-Cohesion: 0.11
-Nodes (18): aliases, components, hooks, lib, ui, utils, iconLibrary, registries (+10 more)
+Cohesion: 0.10
+Nodes (19): aliases, components, hooks, lib, ui, utils, iconLibrary, registries (+11 more)
 
-### Community 11 - "Accordion and Form Controls"
-Cohesion: 0.12
-Nodes (13): lucide-react, @radix-ui/react-accordion, @radix-ui/react-checkbox, @radix-ui/react-radio-group, react-resizable-panels, AccordionContent, AccordionItem, AccordionTrigger (+5 more)
+### Community 11 - "draw.mjs"
+Cohesion: 0.09
+Nodes (39): adjustments(), argv, assetQueries(), ASSETS_PATH, briefStop(), briefWords(), deal(), dealHero() (+31 more)
 
 ### Community 12 - "Form Management and Validation"
 Cohesion: 0.18
 Nodes (14): @radix-ui/react-label, react-hook-form, FormControl, FormDescription, FormFieldContext, FormFieldContextValue, FormItem, FormItemContext (+6 more)
 
-### Community 13 - "Menubar Navigation Components"
-Cohesion: 0.12
-Nodes (11): Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem, MenubarLabel, MenubarRadioItem, MenubarSeparator, MenubarShortcut() (+3 more)
+### Community 13 - "menubar.tsx"
+Cohesion: 0.11
+Nodes (12): @radix-ui/react-menubar, Menubar, MenubarCheckboxItem, MenubarContent, MenubarItem, MenubarLabel, MenubarRadioItem, MenubarSeparator (+4 more)
 
-### Community 14 - "Carousel Slider Components"
-Cohesion: 0.17
-Nodes (15): embla-carousel-react, Button, Carousel, CarouselApi, CarouselContent, CarouselContext, CarouselContextProps, CarouselItem (+7 more)
+### Community 14 - "pagination.tsx"
+Cohesion: 0.07
+Nodes (37): embla-carousel-react, @radix-ui/react-alert-dialog, react-day-picker, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter() (+29 more)
 
-### Community 15 - "Alert Dialog and Calendar Pickers"
-Cohesion: 0.18
-Nodes (13): @radix-ui/react-alert-dialog, react-day-picker, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter(), AlertDialogHeader() (+5 more)
+### Community 15 - "repository.ts"
+Cohesion: 0.15
+Nodes (18): clinicData, faqsData, galleryData, postsData, processStepsData, reviewsData, BlogPost, ClinicData (+10 more)
 
-### Community 16 - "Badge and Toggle Components"
-Cohesion: 0.20
-Nodes (11): class-variance-authority, @radix-ui/react-toggle, @radix-ui/react-toggle-group, Badge(), BadgeProps, badgeVariants, ToggleGroup, ToggleGroupContext (+3 more)
+### Community 16 - "navigation-menu.tsx"
+Cohesion: 0.14
+Nodes (15): class-variance-authority, @radix-ui/react-toggle, @radix-ui/react-toggle-group, Alert, AlertDescription, AlertTitle, alertVariants, Badge() (+7 more)
 
 ### Community 17 - "Recharts Visualization Setup"
 Cohesion: 0.24
 Nodes (11): recharts, ChartConfig, ChartContainer, ChartContext, ChartContextProps, ChartLegendContent, ChartStyle(), ChartTooltipContent (+3 more)
 
-### Community 18 - "Context Menu Primitives"
-Cohesion: 0.18
-Nodes (10): @radix-ui/react-context-menu, ContextMenuCheckboxItem, ContextMenuContent, ContextMenuItem, ContextMenuLabel, ContextMenuRadioItem, ContextMenuSeparator, ContextMenuShortcut() (+2 more)
+### Community 18 - "@tanstack/react-router"
+Cohesion: 0.15
+Nodes (17): @tanstack/react-query, @tanstack/react-router, PageHero(), SmileComparisonSlider(), PostItem, getGalleryCases(), getPostBySlug(), getPosts() (+9 more)
 
-### Community 19 - "Dropdown Menu Components"
-Cohesion: 0.18
-Nodes (10): @radix-ui/react-dropdown-menu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuShortcut() (+2 more)
+### Community 19 - "breadcrumb.tsx"
+Cohesion: 0.22
+Nodes (8): @radix-ui/react-slot, Breadcrumb, BreadcrumbEllipsis(), BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator()
 
-### Community 20 - "Buttons and Pagination Controls"
-Cohesion: 0.24
-Nodes (9): ButtonProps, Pagination(), PaginationContent, PaginationEllipsis(), PaginationItem, PaginationLink(), PaginationLinkProps, PaginationNext() (+1 more)
+### Community 20 - "Cookies"
+Cohesion: 0.06
+Nodes (35): Advanced: Multiple Cookies or Custom Options, Advanced: Multiple Operations, Authentication State Reuse, Clear All Cookies, Clear All localStorage, Clear sessionStorage, Common Patterns, Cookies (+27 more)
 
 ### Community 21 - "Build and Dev NPM Scripts"
 Cohesion: 0.22
 Nodes (9): scripts, build, build:dev, dev, format, lint, preview, test (+1 more)
 
-### Community 22 - "Navigation Menu Primitives"
-Cohesion: 0.28
-Nodes (8): @radix-ui/react-navigation-menu, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle, NavigationMenuViewport
+### Community 22 - "lucide-react"
+Cohesion: 0.19
+Nodes (15): ClinicalProcessWorkflow(), DoctorCapsuleCard(), DoctorCapsuleCardProps, Doctor, ReviewItem, getClinic(), getDoctors(), getReviews() (+7 more)
 
 ### Community 23 - "Select Dropdown Controls"
 Cohesion: 0.28
 Nodes (8): @radix-ui/react-select, SelectContent, SelectItem, SelectLabel, SelectScrollDownButton, SelectScrollUpButton, SelectSeparator, SelectTrigger
 
-### Community 24 - "Drawer and Sheet Modals"
-Cohesion: 0.25
-Nodes (7): vaul, DrawerContent, DrawerDescription, DrawerFooter(), DrawerHeader(), DrawerOverlay, DrawerTitle
+### Community 24 - "react"
+Cohesion: 0.14
+Nodes (18): gsap, CARE_CARDS, CareCardItem, OrisCareCards(), OrisDentalTemplate(), TEAM_INITIALS, OrisFooter(), OrisHeader() (+10 more)
 
 ### Community 25 - "ESLint Configuration"
 Cohesion: 0.29
 Nodes (6): @eslint/js, eslint-plugin-prettier, eslint-plugin-react-hooks, eslint-plugin-react-refresh, globals, typescript-eslint
 
-### Community 26 - "Lovable Error Reporting"
+### Community 26 - "lovable-error-reporting.ts"
 Cohesion: 0.33
 Nodes (6): describeThrown(), LovableErrorOptions, LovableEvents, reportLovableError(), Window, ErrorComponent()
 
-### Community 27 - "One-Time Password Inputs"
+### Community 27 - "Browser Automation with playwright-cli"
+Cohesion: 0.07
+Nodes (27): Attaching screenshots and videos to pull requests, Browser Automation with playwright-cli, Browser Sessions, Commands, Core, DevTools, Emulation, Example: Debugging with DevTools (+19 more)
+
+### Community 28 - "lucide-react"
+Cohesion: 0.14
+Nodes (12): lucide-react, @radix-ui/react-checkbox, react, three, PATIENTS, ReviewPatient, AnatomyPart, partDetails (+4 more)
+
+### Community 29 - "utils.ts"
+Cohesion: 0.06
+Nodes (22): input-otp, @radix-ui/react-hover-card, @radix-ui/react-popover, @radix-ui/react-progress, @radix-ui/react-radio-group, @radix-ui/react-scroll-area, @radix-ui/react-slider, @radix-ui/react-switch (+14 more)
+
+### Community 31 - "UniversalSearchModal.tsx"
+Cohesion: 0.23
+Nodes (11): HeroSearchSection(), HeroSearchSectionProps, symptomQuickChips, quickQueries, UniversalSearchModalProps, normalizeSearchText(), SearchCategory, searchClinicDatabase() (+3 more)
+
+### Community 32 - "Sonner Toast Notifications"
 Cohesion: 0.33
-Nodes (5): input-otp, InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot
-
-### Community 28 - "Avatar Profile Components"
-Cohesion: 0.40
-Nodes (4): @radix-ui/react-avatar, Avatar, AvatarFallback, AvatarImage
-
-### Community 29 - "Alert Notification Cards"
-Cohesion: 0.50
-Nodes (4): Alert, AlertDescription, AlertTitle, alertVariants
-
-### Community 31 - "Scroll Area Custom Containers"
-Cohesion: 0.67
-Nodes (3): @radix-ui/react-scroll-area, ScrollArea, ScrollBar
+Nodes (3): sonner, OrisAppointmentForm(), ToasterProps
 
 ### Community 33 - "Clinic Launch and Demo Gating"
 Cohesion: 0.67
 Nodes (3): Clinic Approval Checklist, Demo Mode, Site Content Config
 
+### Community 40 - "site.ts"
+Cohesion: 0.12
+Nodes (16): ProcessStep, steps, cases, TransformationCase, TreatmentConsultationPlanner(), clinic, DEMO_MODE, Doctor (+8 more)
+
+### Community 41 - "3. Heal"
+Cohesion: 0.09
+Nodes (23): 0. How generation works, 1.1 Prerequisite: workspace, 1.2 Prerequisite: seed test, 1.3 Explore the app, 1.4 Write the spec file, 1. Planning, 2.1 Inputs, 2.2 Generate one scenario (+15 more)
+
+### Community 42 - "inspect.mjs"
+Cohesion: 0.10
+Nodes (12): allow, args, asJson, fails, HEIGHT, merged, outDir, report (+4 more)
+
+### Community 44 - "useI18n"
+Cohesion: 0.16
+Nodes (21): CustomCursor(), DesktopFloatingWhatsApp(), MobileBottomBar(), ScrollProgress(), ContactList(), Footer(), Header(), LangSwitch() (+13 more)
+
+### Community 45 - "4. Recipes"
+Cohesion: 0.10
+Nodes (19): 1. The budget, 2. Four questions before any animation, 3. Tokens, 4. Recipes, 5. Signature moves, 6. Reduced motion and performance, 7. What gives generated motion away, Accordion (+11 more)
+
+### Community 46 - "services.$slug.tsx"
+Cohesion: 0.17
+Nodes (16): RealDental3DViewer(), ServiceArchCard(), ServiceArchCardProps, doctorsData, servicesData, DoctorItem, Service, ServiceItem (+8 more)
+
+### Community 47 - "The run"
+Cohesion: 0.12
+Nodes (16): 10. Report, 1. Read the brief and the project, 2. Write the argument, 3. Draw the direction, 4. Find the idea, 5. Write the words, 6. Build it, still, 7. Gate (+8 more)
+
+### Community 48 - "navigation-menu.tsx"
+Cohesion: 0.28
+Nodes (8): @radix-ui/react-navigation-menu, NavigationMenu, NavigationMenuContent, NavigationMenuIndicator, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle, NavigationMenuViewport
+
+### Community 49 - "Imagery"
+Cohesion: 0.14
+Nodes (13): 10. Markup and credits, 11. Video, 1. What the study measured, 2. Decide what imagery exists, 3. Real pictures from the open collections, 4. The dealt photographs, 5. Cropping and placing, 6. Treatment (+5 more)
+
+### Community 50 - "The study"
+Cohesion: 0.14
+Nodes (13): 10. The 25 highest-scored sites and their ideas, 11. How the skill was tested, 1. Method and its limits, 2. Scores, 3. Where the idea comes from, 4. Headlines, 5. Type, 6. Devices: what separates strong from weak, and what does not (+5 more)
+
+### Community 52 - "Component Catalog & Categories"
+Cohesion: 0.15
+Nodes (12): 1. Text Animations, 2. Animated & Shader Backgrounds, 3. Interactive Animations & Micro-interactions, 4. Interactive Components & Cards, Component Catalog & Categories, Configuration & Setup, Installation via shadcn CLI, Integration Guidelines (+4 more)
+
+### Community 53 - "Tracing"
+Cohesion: 0.17
+Nodes (12): 1. Start Tracing Before the Problem, 2. Clean Up Old Traces, Analyzing Performance, Basic Usage, Best Practices, Capturing Evidence, Debugging Failed Actions, Limitations (+4 more)
+
+### Community 54 - "Colour"
+Cohesion: 0.17
+Nodes (11): 1. What the study measured, 2. The roles, 3. Proportion, 4. Surfaces without lines or shadows, 5. Colour fields, 6. Dark pages, 7. Colour and photographs, 8. Contrast (+3 more)
+
+### Community 55 - "Layout"
+Cohesion: 0.17
+Nodes (11): 1. What strong pages do, 2. Margins and the grid, 3. Where text sits, 4. Empty space, 5. Sections: carry the idea, vary the arrangement, 6. Navigation, 7. Endings, 8. The phone is a second composition (+3 more)
+
+### Community 56 - "lint.mjs"
+Cohesion: 0.17
+Nodes (11): args, asJson, byId, EXT, files, findings, R, roots (+3 more)
+
+### Community 57 - "Browser Session Management"
+Cohesion: 0.10
+Nodes (20): 1. Name Browser Sessions Semantically, 2. Always Clean Up, 3. Delete Stale Browser Data, A/B Testing Sessions, Attach by channel name, Attach via browser extension, Attach via CDP endpoint, Attaching to a Running Browser (+12 more)
+
+### Community 58 - "Tells — the dated registry"
+Cohesion: 0.18
+Nodes (10): 1. First wave (2023–2024), 2. Second wave (2025), 3. Third wave (2025–2026): the "fix" that became the look, 4. Gallery fashion, banned as house style, 5. Structural tells, 6. Copy tells, 7. Motion tells, 8. Why removal is not enough (+2 more)
+
+### Community 59 - "Type"
+Cohesion: 0.18
+Nodes (10): 1. What the study measured, 2. The scale: few sizes, far apart, 3. Setting display type, 4. Setting text, 5. Loading the fonts properly, 6. One family or two, 7. Details that separate set type from typed text, 8. Mistakes the inspector cannot see (+2 more)
+
+### Community 61 - "Lenis Smooth Scroll"
+Cohesion: 0.20
+Nodes (9): 1. Scroll to Anchor or Target, 2. Lock Scroll for Modals / Drawers, 3. Exclude Specific Elements (e.g., Inner Scrollable Containers), Basic Setup (Vanilla / Script), Installation, Lenis Smooth Scroll, Perfect Sync with GSAP ScrollTrigger, React / TanStack Start Integration (+1 more)
+
+### Community 62 - "Video Recording"
+Cohesion: 0.20
+Nodes (10): 1. Use Descriptive Filenames, 2. Record entire hero scripts., 3. Attach the recording to the pull request, Basic Recording, Best Practices, Cursor, Target Highlight and Click Point, Limitations, Overlay API Summary (+2 more)
+
+### Community 63 - "Words"
+Cohesion: 0.20
+Nodes (9): 1. Write the argument first, 2. The two-line headline, 3. Headline shapes that work, 4. Supporting line, body, buttons, 5. Proof without inventing it, 6. Things that read as generated, 7. Micro-typography, Contents (+1 more)
+
+### Community 64 - "Advanced Mocking with run-code"
+Cohesion: 0.22
+Nodes (8): Advanced Mocking with run-code, CLI Route Commands, Conditional Response Based on Request, Delayed Response, Modify Real Response, Request Mocking, Simulate Network Failures, URL Patterns
+
+### Community 65 - "Critique — judging the render"
+Cohesion: 0.22
+Nodes (8): 1. How to look, 2. The score, 3. Caps, 4. Writing the critique, 5. What to fix first, 6. When to stop, Contents, Critique — judging the render
+
+### Community 66 - "Running Custom Playwright Code"
+Cohesion: 0.15
+Nodes (13): Clipboard, Complex Workflows, Error Handling, File Downloads, Frames and Iframes, Geolocation, JavaScript Execution, Media Emulation (+5 more)
+
+### Community 67 - "Core Concepts & Cheatsheet"
+Cohesion: 0.25
+Nodes (7): 1. Basic Tweens, 2. Timelines, 3. ScrollTrigger Plugin, 4. Integration in React & TanStack Start, 5. Performance Best Practices, Core Concepts & Cheatsheet, GSAP (GreenSock Animation Platform)
+
+### Community 68 - "tasteskill v2 (`design-taste-frontend`)"
+Cohesion: 0.29
+Nodes (6): Contents, How it works, Install, Notes, Requirements, tasteskill v2 (`design-taste-frontend`)
+
+### Community 70 - "rules.mjs"
+Cohesion: 0.53
+Nodes (5): colourFamily(), hexToHsl(), inRange(), judge(), RULE_IDS
+
+### Community 71 - "Attaching Screenshots and Videos to Pull Requests"
+Cohesion: 0.40
+Nodes (5): Attaching Screenshots and Videos to Pull Requests, From a local session, From CI, Limits, When to attach
+
+### Community 72 - "drawer.tsx"
+Cohesion: 0.25
+Nodes (7): vaul, DrawerContent, DrawerDescription, DrawerFooter(), DrawerHeader(), DrawerOverlay, DrawerTitle
+
+### Community 73 - "admin.tsx"
+Cohesion: 0.36
+Nodes (6): BookingRequest, deleteBooking(), listBookings(), updateBookingStatus(), AdminPage(), Route
+
+### Community 74 - "OrisRollingCounter.tsx"
+Cohesion: 0.40
+Nodes (5): CounterStatProps, DIGITS, OrisStatCounter(), RollingDigit(), RollingDigitProps
+
+### Community 75 - "images.ts"
+Cohesion: 0.50
+Nodes (3): imagesData, ImageSlot, ImageStatus
+
+### Community 78 - "avatar.tsx"
+Cohesion: 0.40
+Nodes (4): @radix-ui/react-avatar, Avatar, AvatarFallback, AvatarImage
+
+### Community 79 - "book.tsx"
+Cohesion: 0.60
+Nodes (4): ServiceIcon(), createBooking(), BookingPage(), Route
+
+### Community 80 - "Trace Output Files"
+Cohesion: 0.50
+Nodes (4): `resources/`, Trace Output Files, `trace-{timestamp}.network`, `trace-{timestamp}.trace`
+
 ## Knowledge Gaps
-- **23 isolated node(s):** `@hookform/resolvers`, `@tailwindcss/vite`, `@tanstack/router-plugin`, `date-fns`, `react-dom` (+18 more)
-  These have ≤1 connection - possible missing edges. (Counts symbols only; 228 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **26 isolated node(s):** `@google/model-viewer`, `@hookform/resolvers`, `@tailwindcss/vite`, `@tanstack/router-plugin`, `@types/gsap` (+21 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 630 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **15 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `Popover and Interactive UI Primitives` to `Routing and Page Components`, `Input and Separator Components`, `Breadcrumb and Tabs Navigation`, `Package Metadata Configuration`, `Command Palette Dialogs`, `Accordion and Form Controls`, `Form Management and Validation`, `Menubar Navigation Components`, `Carousel Slider Components`, `Alert Dialog and Calendar Pickers`, `Badge and Toggle Components`, `Recharts Visualization Setup`, `Context Menu Primitives`, `Dropdown Menu Components`, `Buttons and Pagination Controls`, `Navigation Menu Primitives`, `Select Dropdown Controls`, `Drawer and Sheet Modals`, `One-Time Password Inputs`, `Avatar Profile Components`, `Alert Notification Cards`, `Scroll Area Custom Containers`?**
-  _High betweenness centrality (0.221) - this node is a cross-community bridge._
-- **What connects `@hookform/resolvers`, `@tailwindcss/vite`, `@tanstack/router-plugin` to the rest of the system?**
-  _23 weakly-connected nodes found - possible documentation gaps or missing edges._
-- **Should `Routing and Page Components` be split into smaller, more focused modules?**
-  _Cohesion score 0.07006101409636019 - nodes in this community are weakly interconnected._
-- **Why does `cn()` connect `Breadcrumb and Tabs Navigation` to `Input and Separator Components`, `Popover and Interactive UI Primitives`, `Command Palette Dialogs`, `Accordion and Form Controls`, `Form Management and Validation`, `Menubar Navigation Components`, `Carousel Slider Components`, `Alert Dialog and Calendar Pickers`, `Badge and Toggle Components`, `Recharts Visualization Setup`, `Context Menu Primitives`, `Dropdown Menu Components`, `Buttons and Pagination Controls`, `Navigation Menu Primitives`, `Select Dropdown Controls`, `Drawer and Sheet Modals`, `One-Time Password Inputs`, `Avatar Profile Components`, `Alert Notification Cards`, `Scroll Area Custom Containers`?**
-  _High betweenness centrality (0.208) - this node is a cross-community bridge._
+- **Why does `react` connect `lucide-react` to `Input and Separator Components`, `cn`, `Package Metadata Configuration`, `Command Palette Dialogs`, `Form Management and Validation`, `menubar.tsx`, `pagination.tsx`, `repository.ts`, `navigation-menu.tsx`, `Recharts Visualization Setup`, `@tanstack/react-router`, `breadcrumb.tsx`, `Select Dropdown Controls`, `react`, `utils.ts`, `UniversalSearchModal.tsx`, `Sonner Toast Notifications`, `site.ts`, `useI18n`, `services.$slug.tsx`, `navigation-menu.tsx`, `drawer.tsx`, `admin.tsx`, `OrisRollingCounter.tsx`, `avatar.tsx`, `book.tsx`?**
+  _High betweenness centrality (0.162) - this node is a cross-community bridge._
+- **What connects `@google/model-viewer`, `@hookform/resolvers`, `@tailwindcss/vite` to the rest of the system?**
+  _26 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `routeTree.gen.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.0641025641025641 - nodes in this community are weakly interconnected._
+- **Why does `fetch()` connect `Routing Error Capture System` to `Running Custom Playwright Code`?**
+  _High betweenness centrality (0.126) - this node is a cross-community bridge._
 - **Should `Core UI Dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.03773584905660377 - nodes in this community are weakly interconnected._
-- **Why does `dependencies` connect `Core UI Dependencies` to `Package Metadata Configuration`?**
-  _High betweenness centrality (0.148) - this node is a cross-community bridge._
+  _Cohesion score 0.03389830508474576 - nodes in this community are weakly interconnected._
+- **Why does `Running Custom Playwright Code` connect `Running Custom Playwright Code` to `playwright-cli/SKILL.md`?**
+  _High betweenness centrality (0.126) - this node is a cross-community bridge._
 - **Should `Input and Separator Components` be split into smaller, more focused modules?**
-  _Cohesion score 0.05587808417997097 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected._

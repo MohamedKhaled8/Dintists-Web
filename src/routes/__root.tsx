@@ -4,6 +4,7 @@ import {
   Link,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
   type ErrorComponentProps,
@@ -13,23 +14,29 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { I18nProvider } from "../lib/i18n";
-import { Header, Footer } from "../components/site";
+import { Header, Footer, TopInfoBar } from "../components/site";
+import {
+  ScrollProgress,
+  MobileBottomBar,
+  DesktopFloatingWhatsApp,
+  CustomCursor,
+} from "../components/GlobalEnhancements";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#FBF9F4] px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+        <h1 className="text-7xl font-display font-bold text-[#0E1F1C]">404</h1>
+        <h2 className="mt-4 text-xl font-bold text-[#0E1F1C]">الصفحة غير موجودة · Page Not Found</h2>
+        <p className="mt-2 text-sm text-[#16372F]/70">
+          لم نتمكن من العثور على الصفحة المطلوبة. يمكنك العودة إلى الصفحة الرئيسية لعيادات يوتوبيا.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-full bg-[#0E1F1C] px-6 py-2.5 text-xs font-bold text-[#C2A06A] shadow-md transition-all hover:bg-[#16372F]"
           >
-            Go home
+            الرئيسية · Home
           </Link>
         </div>
       </div>
@@ -45,29 +52,34 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[#FBF9F4] px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
+        <h1 className="text-xl font-bold tracking-tight text-[#0E1F1C]">
+          حدث خطأ أثناء تحميل الصفحة · This page didn't load
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+        <p className="mt-2 text-xs text-[#16372F]/70">
+          Something went wrong. Please try refreshing or return to the home page.
         </p>
+        {Boolean(error) && (
+          <pre className="mt-3 text-start text-[11px] font-mono text-red-700 bg-red-50/80 p-3 rounded-xl border border-red-200 overflow-x-auto max-w-md">
+            {error instanceof Error ? error.message : String(error)}
+          </pre>
+        )}
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-full bg-[#0E1F1C] px-5 py-2 text-xs font-bold text-[#C2A06A] shadow-sm hover:bg-[#16372F]"
           >
-            Try again
+            إعادة المحاولة · Retry
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="inline-flex items-center justify-center rounded-full border border-[#C2A06A]/40 bg-white px-5 py-2 text-xs font-bold text-[#0E1F1C] hover:bg-[#F6F1E7]"
           >
-            Go home
+            الرئيسية · Home
           </a>
         </div>
       </div>
@@ -80,9 +92,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "عيادات يوتوبيا لطب الأسنان | Utopia Dental Clinics" },
-      { name: "description", content: "Utopia Dental Clinics, Dokki — redesign concept." },
-      { name: "robots", content: "noindex, nofollow" },
+      { title: "عيادات يوتوبيا لطب وتجميل وزراعة الأسنان بالدقي | Utopia Dental Clinics" },
+      {
+        name: "description",
+        content:
+          "عيادات يوتوبيا التخصصية لطب وتجميل وزراعة الأسنان في الدقي، الجيزة. تجربة علاجية هادئة تحت إشراف نخبة من الاستشاريين وأحدث تقنيات التعقيم والزراعة.",
+      },
+      { name: "robots", content: "index, follow" },
     ],
     links: [
       {
@@ -91,7 +107,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=El+Messiri:wght@500;600&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap",
+      },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
@@ -117,16 +136,35 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isOris = pathname === "/" || pathname === "/oris";
+
+  if (isOris) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <I18nProvider>
+          <Outlet />
+        </I18nProvider>
+      </QueryClientProvider>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <I18nProvider>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:start-4 z-50 bg-[#0B4FC7] text-white px-4 py-2 rounded-lg font-bold shadow-lg ring-2 ring-[#0B1B3A]"
+        >
+          تخطي إلى المحتوى الرئيسي / Skip to content
+        </a>
+        <TopInfoBar />
         <Header />
         <main id="main">
           <Outlet />
         </main>
         <Footer />
+        <MobileBottomBar />
       </I18nProvider>
     </QueryClientProvider>
   );

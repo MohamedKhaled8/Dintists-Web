@@ -1,83 +1,175 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState, type FormEvent } from "react";
-import { CheckCircle2, Info, MapPin, MessageCircle } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  MapPin,
+  MessageCircle,
+  Phone,
+  Mail,
+  Clock,
+  Calendar,
+  Sparkles,
+  ExternalLink,
+  ShieldCheck,
+  Send,
+  Navigation,
+} from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { clinic, services, t } from "@/lib/site";
-import { ContactList, PageHero, meta } from "@/components/site";
+import { clinicData } from "@/data/clinic";
+import { ContactList, PageHero } from "@/components/site";
 
 export const Route = createFileRoute("/contact")({
-  head: () => meta("تواصل واحجز | Contact & Appointments — Utopia, Dokki", "اتصل بعيادات يوتوبيا في الدقي أو راسلنا على واتساب. Contact Utopia Dental Clinics in Dokki, Giza."),
-  component: Contact,
+  head: () => ({
+    meta: [
+      {
+        title: "تواصل مع عيادات يوتوبيا بالدقي | Contact & Location — Dokki, Giza",
+      },
+      {
+        name: "description",
+        content:
+          "عنوان وأرقام عيادات يوتوبيا لطب وتجميل وزراعة الأسنان في الدقي: ١١٦ شارع محيي الدين أبو العز، الطابق التاسع. هاتف: 01117655583. يومياً ٢ - ١٠ م.",
+      },
+    ],
+  }),
+  component: ContactPage,
 });
 
-type Errors = Partial<Record<"name" | "phone" | "service", string>>;
-
-function Contact() {
-  const { tr } = useI18n();
-  const [errors, setErrors] = useState<Errors>({});
-  const [done, setDone] = useState(false);
-
-  const submit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const f = new FormData(e.currentTarget);
-    const err: Errors = {};
-    const name = String(f.get("name") || "").trim();
-    const phone = String(f.get("phone") || "").replace(/[\s-]/g, "");
-    if (!name) err.name = tr(t.form.required);
-    if (!phone) err.phone = tr(t.form.required);
-    else if (!/^\+?\d{8,15}$/.test(phone)) err.phone = tr(t.form.badPhone);
-    if (!f.get("service")) err.service = tr(t.form.required);
-    setErrors(err);
-    if (Object.keys(err).length === 0) setDone(true); // DEMO_MODE: nothing sent or stored
-  };
-
-  const Field = ({ id, label, children }: { id: keyof Errors | "date" | "message"; label: string; children: React.ReactNode }) => (
-    <div>
-      <label htmlFor={id} className="mb-1.5 block text-sm font-medium">{label}</label>
-      {children}
-      {id in errors && errors[id as keyof Errors] && <p id={`${id}-err`} className="mt-1 text-sm text-destructive">{errors[id as keyof Errors]}</p>}
-    </div>
-  );
+function ContactPage() {
+  const { lang } = useI18n();
+  const isAr = lang === "ar";
 
   return (
-    <>
-      <PageHero title={tr(t.contactTitle)} sub={tr(clinic.hours)} />
-      <section className="container-x mt-16 grid gap-10 lg:grid-cols-[1fr_1.3fr]">
-        <div className="space-y-8">
-          <ContactList />
-          <div className="flex flex-wrap gap-3">
-            <a href={clinic.whatsapp} target="_blank" rel="noopener noreferrer" className="btn-primary"><MessageCircle className="h-4 w-4" /> {tr(t.whatsapp)}</a>
-            <a href={clinic.maps} target="_blank" rel="noopener noreferrer" className="btn-outline"><MapPin className="h-4 w-4" /> {tr(t.map)}</a>
+    <div className="min-h-screen bg-[#FBF9F4] text-[#0E1F1C]">
+      <PageHero
+        title={isAr ? "تواصل مع عيادات يوتوبيا" : "Contact & Visit Dokki"}
+        sub={
+          isAr
+            ? "يسعدنا استقبال استفساراتكم ومواعيدكم يومياً من ٢:٠٠ ظهراً حتى ١٠:٠٠ مساءً في فرعنا بالدقي."
+            : "We welcome your inquiries and visits daily from 2:00 PM to 10:00 PM on the 9th floor in Dokki, Giza."
+        }
+        crumb={isAr ? "اتصل بنا" : "Contact"}
+      />
+
+      <section className="container-x py-16">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.35fr] items-start">
+          {/* Left Column: Direct Contact Info & Directions */}
+          <div className="space-y-8">
+            <div className="rounded-3xl border border-[#C2A06A]/30 bg-white p-8 shadow-sm">
+              <span className="eyebrow">
+                <MapPin className="w-3.5 h-3.5 text-[#C2A06A]" />
+                <span>{isAr ? "مقر العيادة بالدقي" : "Clinic Location"}</span>
+              </span>
+
+              <h2 className="mt-3 font-display text-2xl font-bold text-[#0E1F1C]">
+                {clinicData.name[lang]}
+              </h2>
+              <p className="mt-2 text-xs leading-relaxed text-[#16372F]/70">
+                {clinicData.address[lang]}
+              </p>
+
+              <div className="mt-6 border-t border-[#C2A06A]/15 pt-6">
+                <ContactList />
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <a
+                  href={clinicData.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-clay flex items-center gap-2 text-xs shadow-md"
+                >
+                  <MessageCircle className="w-4 h-4 text-emerald-400" />
+                  <span>{isAr ? "تواصل عبر واتساب" : "WhatsApp"}</span>
+                </a>
+
+                <a
+                  href={clinicData.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-outline flex items-center gap-2 text-xs"
+                >
+                  <Navigation className="w-4 h-4 text-[#C2A06A]" />
+                  <span>{isAr ? "احصل على الاتجاهات" : "Get Directions"}</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+
+            {/* Operating Hours Box */}
+            <div className="rounded-2xl border border-[#C2A06A]/20 bg-[#F6F1E7] p-6 shadow-xs flex items-center gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#0E1F1C] text-[#C2A06A]">
+                <Clock className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-xs font-bold text-[#16372F]/60">
+                  {isAr ? "ساعات العمل الرسمية" : "Operating Schedule"}
+                </p>
+                <p className="text-sm font-bold text-[#0E1F1C] mt-0.5">
+                  {clinicData.hours[lang]}
+                </p>
+                <p className="text-[11px] text-[#16372F]/50 mt-0.5">
+                  {isAr ? "طوال أيام الأسبوع" : "7 Days a Week"}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Google Maps Embed & Booking Link */}
+          <div className="space-y-8">
+            <div className="rounded-3xl border border-[#C2A06A]/30 bg-white p-6 md:p-8 shadow-sm overflow-hidden">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-[#C2A06A]" />
+                  <h3 className="font-display text-lg font-bold text-[#0E1F1C]">
+                    {isAr ? "موقع العيادة على الخريطة" : "Location on Map"}
+                  </h3>
+                </div>
+                <a
+                  href={clinicData.googleMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-bold text-[#C2A06A] hover:underline flex items-center gap-1"
+                >
+                  <span>{isAr ? "فتح في خرائط جوجل" : "Open in Google Maps"}</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+
+              {/* Embedded Google Map iframe */}
+              <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-[#C2A06A]/20 bg-[#F6F1E7]">
+                <iframe
+                  title="Utopia Dental Clinics Location"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3453.6496924840427!2d31.2030067!3d30.0468925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14584144365287f3%3A0x7d671239ce343868!2zMTE2INi02KfYsdi5INmF2K3ZitmKINin2YTYr9mK2YYg2KPYqNmIINin2YTYudiy2Iwg2KfZhNiv2YLZitiMINin2YTYrNmK2LLYqQ!5e0!3m2!1sar!2seg!4v1700000000000!5m2!1sar!2seg"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full"
+                />
+              </div>
+
+              {/* Quick Booking CTA Box */}
+              <div className="mt-6 rounded-2xl border border-[#C2A06A]/20 bg-[#FBF9F4] p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h4 className="font-bold text-sm text-[#0E1F1C]">
+                    {isAr ? "هل ترغب بطلب حجز موعد مباشر؟" : "Ready to Schedule a Consultation?"}
+                  </h4>
+                  <p className="text-xs text-[#16372F]/70 mt-0.5">
+                    {isAr
+                      ? "استخدم نموذج الحجز المبدئي لاختيار الخدمة والموعد المناسب."
+                      : "Use our multi-step booking request form to pick your date and doctor."}
+                  </p>
+                </div>
+
+                <Link to="/book" className="btn-clay text-xs py-2.5 px-5 shrink-0 flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  <span>{isAr ? "الانتقال لنموذج الحجز" : "Go to Booking Form"}</span>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="card-lift p-6 md:p-8">
-          <h2 className="font-display text-2xl text-primary">{tr(t.form.title)}</h2>
-          <p className="mt-3 flex gap-2 rounded-2xl bg-accent/25 p-3 text-sm"><Info className="mt-0.5 h-4 w-4 shrink-0" /> {tr(t.form.demoNote)}</p>
-          {done ? (
-            <div className="py-10 text-center" role="status">
-              <CheckCircle2 className="mx-auto h-12 w-12 text-primary" />
-              <p className="mt-4 font-medium">{tr(t.form.success)}</p>
-              <button onClick={() => setDone(false)} className="btn-outline mt-6">{tr(t.form.again)}</button>
-            </div>
-          ) : (
-            <form onSubmit={submit} noValidate className="mt-6 grid gap-4 sm:grid-cols-2">
-              <Field id="name" label={tr(t.form.name)}><input id="name" name="name" className="field" autoComplete="name" aria-invalid={!!errors.name} /></Field>
-              <Field id="phone" label={tr(t.form.phone)}><input id="phone" name="phone" type="tel" dir="ltr" className="field" autoComplete="tel" aria-invalid={!!errors.phone} /></Field>
-              <div className="sm:col-span-2">
-                <Field id="service" label={tr(t.form.service)}>
-                  <select id="service" name="service" className="field" defaultValue="" aria-invalid={!!errors.service}>
-                    <option value="" disabled>{tr(t.form.choose)}</option>
-                    {services.map((s) => <option key={s.slug} value={s.slug}>{tr(s.name)}</option>)}
-                  </select>
-                </Field>
-              </div>
-              <div className="sm:col-span-2"><Field id="date" label={tr(t.form.date)}><input id="date" name="date" type="datetime-local" className="field" /></Field></div>
-              <div className="sm:col-span-2"><Field id="message" label={tr(t.form.message)}><textarea id="message" name="message" rows={4} className="field" /></Field></div>
-              <button type="submit" className="btn-primary sm:col-span-2">{tr(t.form.submit)}</button>
-            </form>
-          )}
-        </div>
       </section>
-    </>
+    </div>
   );
 }
